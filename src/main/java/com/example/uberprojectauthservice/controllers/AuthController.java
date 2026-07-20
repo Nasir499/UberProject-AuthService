@@ -26,4 +26,5 @@ public class AuthController {
     public ResponseEntity<?> signUp() {
         return new ResponseEntity<>(1,HttpStatus.FOUND);
     }
+
 }
