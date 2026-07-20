@@ -23,6 +23,12 @@ public class PassengerDto {
 
     private Date createdAt;
 
+    /**
+     * Converts a Passenger entity to a PassengerDto.
+     *
+     * @param passenger the passenger entity
+     * @return the corresponding PassengerDto
+     */
     public static PassengerDto from(Passenger passenger) {
         return PassengerDto.builder()
                 .id(passenger.getId())

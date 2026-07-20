@@ -11,6 +11,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableAspectJAutoProxy
 public class SpringSecurity {
+    /**
+     * Configures the security filter chain.
+     *
+     * @param http the HttpSecurity configuration
+     * @return the SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -25,6 +32,11 @@ public class SpringSecurity {
 
                 .build();
     }
+    /**
+     * Provides the BCryptPasswordEncoder bean.
+     *
+     * @return the BCryptPasswordEncoder instance
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

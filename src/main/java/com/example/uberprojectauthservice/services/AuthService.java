@@ -11,10 +11,22 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PassengerRepository PassengerRepository;
+    /**
+     * Constructs a new AuthService with the given PassengerRepository and BCryptPasswordEncoder.
+     *
+     * @param passengerRepository the passenger repository
+     * @param bCryptPasswordEncoder the bcrypt password encoder
+     */
     public AuthService( PassengerRepository passengerRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         PassengerRepository = passengerRepository;
     }
+    /**
+     * Signs up a new passenger.
+     *
+     * @param passengerSignupRequestDto the passenger signup request DTO
+     * @return the registered passenger DTO
+     */
     public PassengerDto signupPassenger(PassengerSignupRequestDto passengerSignupRequestDto) {
         Passenger passenger = Passenger.builder()
                 .email(passengerSignupRequestDto.getEmail())
