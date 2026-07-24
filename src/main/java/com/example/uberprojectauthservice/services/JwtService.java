@@ -30,7 +30,7 @@ public class JwtService implements CommandLineRunner {
      * @param email the subject email
      * @return the generated JWT token
      */
-    private String createToken(Map<String, Object> payload,String email) {
+    public String createToken(Map<String, Object> payload,String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiry*1000L);
         return Jwts.builder()
@@ -40,13 +40,16 @@ public class JwtService implements CommandLineRunner {
                 .signWith(getSigningKey())
                 .compact();
     }
+    public String createToken(String email) {
+        return createToken(Map.of("email",email),email);
+    }
     /**
      * Extracts all claims from the given JWT token.
      *
      * @param token the JWT token
      * @return the Claims extracted from the token
      */
-    private Claims extractAllPayload(String token){
+    public Claims extractAllPayload(String token){
         return  Jwts
                 .parser()
                 .setSigningKey(getSigningKey())
@@ -62,7 +65,7 @@ public class JwtService implements CommandLineRunner {
      * @param <T> the type of the claim
      * @return the resolved claim
      */
-    private <T> T extractPayload(String token, Function<Claims,T> claimsResolver){
+    public  <T> T extractPayload(String token, Function<Claims,T> claimsResolver){
         final Claims claims = extractAllPayload(token);
         return claimsResolver.apply(claims);
     }
@@ -73,7 +76,7 @@ public class JwtService implements CommandLineRunner {
      * @param token the JWT token
      * @return the email extracted from the token
      */
-    private String extractEmail(String token) {
+    public String extractEmail(String token) {
         return extractPayload(token,Claims::getSubject);
     }
 
@@ -83,7 +86,7 @@ public class JwtService implements CommandLineRunner {
      * @param token the JWT token
      * @return the expiration date of the token
      */
-    private Date extractExpiration(String token) {
+    public Date extractExpiration(String token) {
         return extractPayload(token,Claims::getExpiration);
     }
 
@@ -93,7 +96,7 @@ public class JwtService implements CommandLineRunner {
      * @param token the JWT token
      * @return true if the token is expired, false otherwise
      */
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -102,7 +105,7 @@ public class JwtService implements CommandLineRunner {
      *
      * @return the signing key
      */
-    private Key getSigningKey() {
+    public Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -113,7 +116,7 @@ public class JwtService implements CommandLineRunner {
      * @param email the email to validate against
      * @return true if the token is valid, false otherwise
      */
-    private Boolean validateToken(String token, String email) {
+    public Boolean validateToken(String token, String email) {
         return extractEmail(token).equals(email) && !isTokenExpired(token);
     }
 
@@ -123,7 +126,7 @@ public class JwtService implements CommandLineRunner {
      * @param token the JWT token
      * @return the phone number extracted from the token
      */
-    private String extractPhoneNumber(String token) {
+    public String extractPhoneNumber(String token) {
         return extractPayload(token,claims -> claims.get("phoneNumber").toString());
     }
 

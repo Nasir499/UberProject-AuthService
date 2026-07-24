@@ -5,12 +5,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class AuthPassengerDetails extends Passenger implements UserDetails {
 
-    private String username;//email/name/id
+    private  String username;//email/name/id
 
-    private String password;
+    private  String password;
 
     public AuthPassengerDetails(Passenger passenger) {
         this.username = passenger.getEmail();
@@ -24,7 +25,7 @@ public class AuthPassengerDetails extends Passenger implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -37,7 +38,10 @@ public class AuthPassengerDetails extends Passenger implements UserDetails {
     public String getUsername() {
         return this.username;
     }
-
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
